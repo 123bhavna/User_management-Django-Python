@@ -1,0 +1,119 @@
+<h2 class="heading">User List</h2>
+
+<div class="actions">
+    <a href="{% url 'user_create' %}" class="create-btn">+ Create New User</a>
+</div>
+
+<table class="user-table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if users %}
+            {% for user in users %}
+            <tr>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone_number }}</td>
+                <td>{{ user.address }}</td>
+                <td class="action-buttons">
+                    <a href="{% url 'user_update' user.pk %}" class="edit-btn">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <form action="{% url 'user_delete' user.pk %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-btn">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="6" class="no-users">No users found.</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 20px;
+    }
+    .heading {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .actions {
+        margin-bottom: 20px;
+    }
+    .create-btn {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+    .create-btn:hover {
+        background-color: #218838;
+    }
+    .user-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .user-table th, .user-table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    .user-table th {
+        background-color: #007bff;
+        color: white;
+    }
+    .user-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    .action-buttons a, .action-buttons button {
+        background-color: #007bff;
+        color: white;
+        padding: 5px 10px;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    .edit-btn {
+        background-color: #ffc107;
+    }
+    .edit-btn:hover {
+        background-color: #e0a800;
+    }
+    .delete-btn {
+        background-color: #dc3545;
+        margin-left: 10px;
+    }
+    .delete-btn:hover {
+        background-color: #c82333;
+    }
+    .no-users {
+        text-align: center;
+        font-style: italic;
+        color: #777;
+    }
+</style>
